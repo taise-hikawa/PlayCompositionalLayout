@@ -48,7 +48,11 @@ class ViewController: UIViewController {
         for index in 1...10 {
             items.append(.stub(id: index))
         }
-        sections = [ItemsSection(items: items)]
+        sections = [
+            ItemsSection(items: items, type: .history),
+            ItemsSection(items: items, type: .sale),
+            ItemsSection(items: items, type: .recommend)
+        ]
         collectionView.reloadData()
     }
 }

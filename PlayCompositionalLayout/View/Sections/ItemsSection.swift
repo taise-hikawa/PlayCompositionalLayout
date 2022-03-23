@@ -8,9 +8,24 @@
 import UIKit
 
 struct ItemsSection {
+    enum ItemSectionType {
+        case history
+        case sale
+        case recommend
+
+        var headerTitle: String {
+            switch self {
+            case .history: return "チェックしたアイテム"
+            case .sale: return "クーポン対象アイテム"
+            case .recommend: return "おすすめアイテム"
+            }
+        }
+    }
     let items: [Item]
-    init(items: [Item]) {
+    let type: ItemSectionType
+    init(items: [Item], type: ItemSectionType) {
         self.items = items
+        self.type = type
     }
 }
 
@@ -53,7 +68,7 @@ extension ItemsSection: SectionProtocol {
         let cell = view.dequeueReusableSupplementaryView(with: HeaderCell.self,
                                                          kind: UICollectionView.elementKindSectionHeader,
                                                          for: indexPath)
-        cell.configureCell(title: "おすすめ")
+        cell.configureCell(title: type.headerTitle)
         return cell
     }
 }
