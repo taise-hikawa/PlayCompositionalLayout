@@ -13,6 +13,7 @@ class ViewController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
+        collectionView.register(type: ItemCell.self)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -36,6 +37,8 @@ class ViewController: UIViewController {
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+
+        fetchData()
     }
 
     private func fetchData() {
@@ -43,7 +46,7 @@ class ViewController: UIViewController {
         for index in 1...10 {
             items.append(.stub(id: index))
         }
-        sections = []
+        sections = [ItemsSection(items: items)]
         collectionView.reloadData()
     }
 }

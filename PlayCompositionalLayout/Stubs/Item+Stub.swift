@@ -7,9 +7,8 @@
 
 import Foundation
 
-
 extension Item {
     static func stub(id: Int) -> Self{
-        .init(id: id, price: 9000, imageName: "sample", brandName: "sample\(String(id))")
+        .init(id: id, price: 9000, imageName: "sampleItem", brandName: "sample\(String(id))")
     }
 }

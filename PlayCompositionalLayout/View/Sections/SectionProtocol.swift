@@ -8,7 +8,6 @@
 import UIKit
 
 protocol SectionProtocol {
-    
     var numberOfItems: Int { get }
     func layoutSection(_ view: UIView) -> NSCollectionLayoutSection
     func configureCell(_ view: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell
