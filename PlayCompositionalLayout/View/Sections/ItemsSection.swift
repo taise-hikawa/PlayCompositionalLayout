@@ -30,6 +30,12 @@ extension ItemsSection: SectionProtocol {
 
         let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuous
+        let sectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                       heightDimension: .estimated(44))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: sectionHeaderSize,
+                                                                        elementKind: UICollectionView.elementKindSectionHeader,
+                                                                        alignment: .top)
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
 
@@ -41,5 +47,13 @@ extension ItemsSection: SectionProtocol {
 
     func selectItem(_ controller: ViewController, at indexPath: IndexPath) {
         // TODO: screen transition
+    }
+
+    func header(_ view: UICollectionView, at indexPath: IndexPath) -> HeaderCell {
+        let cell = view.dequeueReusableSupplementaryView(with: HeaderCell.self,
+                                                         kind: UICollectionView.elementKindSectionHeader,
+                                                         for: indexPath)
+        cell.configureCell(title: "おすすめ")
+        return cell
     }
 }

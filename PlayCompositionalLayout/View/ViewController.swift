@@ -13,6 +13,8 @@ class ViewController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
+        collectionView.register(type: HeaderCell.self,
+                                kind: UICollectionView.elementKindSectionHeader)
         collectionView.register(type: ItemCell.self)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
@@ -67,6 +69,14 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         sections[indexPath.section].selectItem(self, at: indexPath)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        switch kind {
+        case UICollectionView.elementKindSectionHeader:
+            return sections[indexPath.section].header(collectionView, at: indexPath)
+        default: fatalError("unexpected supplement kind")
+        }
     }
 }
 

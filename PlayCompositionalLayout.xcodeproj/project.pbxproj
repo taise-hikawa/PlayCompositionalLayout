@@ -22,6 +22,7 @@
 		D5C2818827E6F2D0002C0C5D /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C2818727E6F2D0002C0C5D /* UICollectionView+Extensions.swift */; };
 		D5C2818D27E71738002C0C5D /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C2818C27E71738002C0C5D /* Item.swift */; };
 		D5ED608F27EB06A800A649D9 /* Int+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ED608E27EB06A800A649D9 /* Int+Extensions.swift */; };
+		D5ED609127EB176700A649D9 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ED609027EB176700A649D9 /* HeaderCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		D5C2818727E6F2D0002C0C5D /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		D5C2818C27E71738002C0C5D /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		D5ED608E27EB06A800A649D9 /* Int+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extensions.swift"; sourceTree = "<group>"; };
+		D5ED609027EB176700A649D9 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				D51A181C27EAFF3C00A754D6 /* ItemCell.swift */,
+				D5ED609027EB176700A649D9 /* HeaderCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				D5C2814527E5B705002C0C5D /* AppDelegate.swift in Sources */,
 				D5C2814727E5B705002C0C5D /* SceneDelegate.swift in Sources */,
 				D5C2817527E5BAA6002C0C5D /* SectionProtocol.swift in Sources */,
+				D5ED609127EB176700A649D9 /* HeaderCell.swift in Sources */,
 				D5ED608F27EB06A800A649D9 /* Int+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
