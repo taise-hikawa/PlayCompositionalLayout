@@ -54,21 +54,21 @@ extension ItemsSection: SectionProtocol {
         return section
     }
 
-    func configureCell(_ view: UICollectionView, at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = view.dequeueReusableCell(with: ItemCell.self, for: indexPath)
-        cell.configureCell(item: items[indexPath.row])
+    func configureCell(_ viewController: ViewController, at indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = viewController.collectionView.dequeueReusableCell(with: ItemCell.self, for: indexPath)
+        cell.configureCell(item: items[indexPath.row], parent: viewController)
         return cell
     }
 
-    func selectItem(_ controller: ViewController, at indexPath: IndexPath) {
+    func selectItem(_ viewController: ViewController, at indexPath: IndexPath) {
         // TODO: screen transition
     }
 
-    func header(_ view: UICollectionView, at indexPath: IndexPath) -> HeaderCell {
-        let cell = view.dequeueReusableSupplementaryView(with: HeaderCell.self,
+    func header(_ viewController: ViewController, at indexPath: IndexPath) -> HeaderCell {
+        let cell = viewController.collectionView.dequeueReusableSupplementaryView(with: HeaderCell.self,
                                                          kind: UICollectionView.elementKindSectionHeader,
                                                          for: indexPath)
-        cell.configureCell(title: type.headerTitle)
+        cell.configureCell(title: type.headerTitle, parent: viewController)
         return cell
     }
 }

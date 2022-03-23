@@ -11,7 +11,7 @@ class ViewController: UIViewController {
 
     private var sections = [SectionProtocol]()
 
-    private lazy var collectionView: UICollectionView = {
+    private (set) lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         collectionView.register(type: HeaderCell.self,
                                 kind: UICollectionView.elementKindSectionHeader)
@@ -53,7 +53,7 @@ class ViewController: UIViewController {
             ItemsSection(items: items, type: .sale),
             ItemsSection(items: items, type: .recommend)
         ]
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
 }
 
@@ -68,7 +68,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        sections[indexPath.section].configureCell(collectionView, at: indexPath)
+        sections[indexPath.section].configureCell(self, at: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -78,7 +78,7 @@ extension ViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         switch kind {
         case UICollectionView.elementKindSectionHeader:
-            return sections[indexPath.section].header(collectionView, at: indexPath)
+            return sections[indexPath.section].header(self, at: indexPath)
         default: fatalError("unexpected supplement kind")
         }
     }

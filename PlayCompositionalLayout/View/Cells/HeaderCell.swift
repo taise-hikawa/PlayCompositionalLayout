@@ -18,18 +18,21 @@ class HeaderCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureCell(title: String) {
+    func configureCell(title: String, parent: UIViewController) {
         self.title = title
-        if let view = UIHostingController(rootView: HeaderCellView(title: title, showMore: {})).view {
-            contentView.addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                view.topAnchor.constraint(equalTo: contentView.topAnchor),
-                view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-            ])
-        }
+        let hostingController = UIHostingController(rootView: HeaderCellView(title: title, showMore: {}))
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.invalidateIntrinsicContentSize()
+        guard hostingController.parent == nil else { return }
+        parent.addChild(hostingController)
+        contentView.addSubview(hostingController.view)
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+        hostingController.didMove(toParent: parent)
     }
 }
 

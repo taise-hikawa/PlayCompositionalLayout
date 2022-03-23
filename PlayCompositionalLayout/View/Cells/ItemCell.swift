@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-class ItemCell: UICollectionViewCell {
+class ItemCell: HostingCell<ItemCellView> {
     var item: Item?
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -18,18 +18,21 @@ class ItemCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureCell(item: Item) {
+    func configureCell(item: Item, parent: UIViewController) {
         self.item = item
-        if let view = UIHostingController(rootView: ItemCellView(item: item)).view {
-            contentView.addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            NSLayoutConstraint.activate([
-                view.topAnchor.constraint(equalTo: contentView.topAnchor),
-                view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-                view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
-            ])
-        }
+        let hostingController = UIHostingController(rootView: ItemCellView(item: item))
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.invalidateIntrinsicContentSize()
+        guard hostingController.parent == nil else { return }
+        parent.addChild(hostingController)
+        contentView.addSubview(hostingController.view)
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+        hostingController.didMove(toParent: parent)
     }
 }
 
@@ -54,4 +57,37 @@ struct ItemCellView_Previews: PreviewProvider {
         ItemCellView(item: .stub(id: 1))
             .previewLayout(.fixed(width: 300, height: 300))
     }
+}
+
+class HostingCell<Content: View>: UICollectionViewCell {
+
+    private let hostingController = UIHostingController<Content?>(rootView: nil)
+
+    override public init(frame: CGRect) {
+        super.init(frame: frame)
+        hostingController.view.backgroundColor = .clear
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    public required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    public func configure(_ view: Content, parent: UIViewController) {
+        hostingController.rootView = view
+        hostingController.view.invalidateIntrinsicContentSize()
+
+        guard hostingController.parent == nil else { return }
+        // 以下は初回のみ実行
+        parent.addChild(hostingController)
+        contentView.addSubview(hostingController.view)
+        NSLayoutConstraint.activate([
+            hostingController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            hostingController.view.topAnchor.constraint(equalTo: contentView.topAnchor),
+            hostingController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            hostingController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+        ])
+        hostingController.didMove(toParent: parent)
+    }
+
 }
