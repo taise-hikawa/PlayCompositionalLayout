@@ -15,8 +15,10 @@ class ViewController: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         collectionView.register(type: HeaderCell.self,
                                 kind: UICollectionView.elementKindSectionHeader)
+        collectionView.register(type: BannerCell.self)
         collectionView.register(type: ItemCell.self)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.refreshControl = refreshControl
         return collectionView
     }()
 
@@ -25,6 +27,12 @@ class ViewController: UIViewController {
             sections[section].layoutSection(self.view)
         }
         return layout
+    }()
+
+    private lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefresh(_:)), for: .valueChanged)
+        return refreshControl
     }()
 
     override func viewDidLoad() {
@@ -43,17 +51,30 @@ class ViewController: UIViewController {
         fetchData()
     }
 
+    @objc private func onRefresh(_ sender: Any) {
+        fetchData()
+    }
+
     private func fetchData() {
+        // usually fetch here
+        var banners = [Banner]()
+        for index in 1...10 {
+            banners.append(.stub(id: index))
+        }
         var items = [Item]()
         for index in 1...10 {
             items.append(.stub(id: index))
         }
         sections = [
+            BannerSection(banners: banners),
             ItemsSection(items: items, type: .history),
             ItemsSection(items: items, type: .sale),
             ItemsSection(items: items, type: .recommend)
         ]
-//        collectionView.reloadData()
+        collectionView.reloadData()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.refreshControl.endRefreshing()
+        }
     }
 }
 
